@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { App } from "./App";
 
-const Hello: React.FunctionComponent = () => <div>Hello</div>;
-
-ReactDOM.render(<Hello />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById("app"));
