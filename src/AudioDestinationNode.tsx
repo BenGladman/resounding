@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useAudioNode } from "./AudioNode";
 
-type Props = {
-  children?: (node: AudioDestinationNode) => React.ReactElement<any>;
-};
+const _AudioDestinationNode: React.RefForwardingComponent<
+  AudioDestinationNode
+> = (_props, ref) => {
+  useAudioNode(api => api.destination, null, ref);
 
-export const AudioDestinationNode: React.FunctionComponent<Props> = ({
-  children
-}) => {
-  const node = useAudioNode(api => api.destination);
   return (
     <div>
       <h2>Audio Destination Node</h2>
-      <dl>
-        <dt>children</dt>
-        <dd>{children && children(node)}</dd>
-      </dl>
     </div>
   );
 };
+
+export const AudioDestinationNode = React.forwardRef(_AudioDestinationNode);
+
+export function useAudioDestination() {
+  const ref = useRef<AudioDestinationNode>(null);
+  return { ref, input: () => ref.current };
+}

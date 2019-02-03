@@ -1,32 +1,39 @@
-import React from "react";
-import { useAudioNode } from "./AudioNode";
+import React, { useRef } from "react";
+import { ConnectTo, useAudioNode } from "./AudioNode";
 
 type Props = {
-  connectTo?: AudioNode | AudioParam;
+  connectTo: ConnectTo;
   gain?: number;
-  children?: (node: GainNode) => React.ReactElement<any>;
 };
 
-export const GainNode: React.FunctionComponent<Props> = ({
-  connectTo,
-  gain,
-  children
-}) => {
-  const node = useAudioNode(api => api.createGain(), connectTo);
+const _GainNode: React.RefForwardingComponent<GainNode, Props> = (
+  { connectTo, gain },
+  ref
+) => {
+  const node = useAudioNode(api => api.createGain(), connectTo, ref);
+
   if (gain !== undefined) {
     node.gain.value = gain;
   }
+
   return (
     <div>
       <h2>Gain Node</h2>
       <dl>
         <dt>gain</dt>
         <dd>{gain}</dd>
-        <dt>connectTo</dt>
-        <dd>{connectTo && connectTo.toString()}</dd>
-        <dt>children</dt>
-        <dd>{children && children(node)}</dd>
       </dl>
     </div>
   );
 };
+
+export const GainNode = React.forwardRef(_GainNode);
+
+export function useGain() {
+  const ref = useRef<GainNode>(null);
+  return {
+    ref,
+    input: () => ref.current,
+    gain: () => ref.current && ref.current.gain
+  };
+}

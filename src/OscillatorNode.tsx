@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
-import { useAudioNode } from "./AudioNode";
+import React, { useEffect, useRef } from "react";
+import { ConnectTo, useAudioNode } from "./AudioNode";
 
 type Props = {
-  connectTo?: AudioNode | AudioParam;
+  connectTo: ConnectTo;
   frequency?: number;
   type?: OscillatorNode["type"];
-  children?: (node: OscillatorNode) => React.ReactElement<any>;
 };
 
-export const OscillatorNode: React.FunctionComponent<Props> = ({
-  connectTo,
-  frequency,
-  type,
-  children
-}) => {
-  const node = useAudioNode(api => api.createOscillator(), connectTo);
+const _OscillatorNode: React.RefForwardingComponent<OscillatorNode, Props> = (
+  { connectTo, frequency, type },
+  ref
+) => {
+  const node = useAudioNode(api => api.createOscillator(), connectTo, ref);
 
   useEffect(() => {
     node.start();
@@ -37,12 +34,18 @@ export const OscillatorNode: React.FunctionComponent<Props> = ({
         <dd>{type}</dd>
         <dt>frequency</dt>
         <dd>{frequency}</dd>
-        <dt>connectTo</dt>
-        <dd>{connectTo && connectTo.toString()}</dd>
-        <dt>actions</dt>
-        <dt>children</dt>
-        <dd>{children && children(node)}</dd>
       </dl>
     </div>
   );
 };
+
+export const OscillatorNode = React.forwardRef(_OscillatorNode);
+
+export function useOscillator() {
+  const ref = useRef<OscillatorNode>(null);
+  return {
+    ref,
+    frequency: () => ref.current && ref.current.frequency,
+    detune: () => ref.current && ref.current.detune
+  };
+}
