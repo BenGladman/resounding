@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "tslint --project ."
   },
   "author": "",
   "license": "MIT",
