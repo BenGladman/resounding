@@ -1,5 +1,5 @@
 import React from "react";
-import { useAudioContext } from "./AudioContext";
+import { useAudioContext } from "./audioContext";
 
 export const SuspendResumeButtons: React.FunctionComponent = () => {
   const audioContext = useAudioContext();
