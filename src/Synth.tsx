@@ -1,31 +1,24 @@
 import React from "react";
-import { useAudioDestinationNode } from "./audioDestinationNode";
-import { useGainNode } from "./gainNode";
-import { useOscillatorNode } from "./oscillatorNode";
+import { useMasterModule, useVibratoModule } from "./modules";
+import { useOscillatorNode } from "./nodes";
 
 export const Synth: React.FunctionComponent = () => {
-  const AudioDestination = useAudioDestinationNode();
-  const MasterGain = useGainNode();
-  const Gain2 = useGainNode();
-  const Gain3 = useGainNode();
+  const Master = useMasterModule();
+  const Vibrato1 = useVibratoModule();
+  const Vibrato2 = useVibratoModule();
   const Hfo1 = useOscillatorNode();
   const Hfo2 = useOscillatorNode();
-  const Lfo1 = useOscillatorNode();
-  const Lfo2 = useOscillatorNode();
   const Lfo3 = useOscillatorNode();
   const Lfo4 = useOscillatorNode();
 
   return (
     <>
-      <AudioDestination />
-      <MasterGain connectTo={AudioDestination.node} gain={0.5} />
-      <Hfo1 connectTo={MasterGain.node} type="triangle" frequency={330} />
-      <Gain2 connectTo={Hfo1.frequency} gain={2} />
-      <Lfo1 connectTo={Gain2.node} frequency={7} />
-      <Hfo2 connectTo={MasterGain.node} type="triangle" frequency={220} />
-      <Gain3 connectTo={Hfo2.frequency} gain={50} />
-      <Lfo2 connectTo={Gain3.node} frequency={2} />
-      <Lfo3 connectTo={MasterGain.gain} frequency={2} />
+      <Master />
+      <Hfo1 connectTo={Master.node} type="triangle" frequency={330} />
+      <Vibrato1 connectTo={Hfo1.frequency} depth={2} frequency={7} />
+      <Hfo2 connectTo={Master.node} type="triangle" frequency={220} />
+      <Vibrato2 connectTo={Hfo2.frequency} depth={50} frequency={2} />
+      <Lfo3 connectTo={Master.gain} frequency={2} />
       <Lfo4 connectTo={Lfo3.frequency} type="square" frequency={0.2} />
     </>
   );

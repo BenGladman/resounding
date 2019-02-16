@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAudioContext } from "./audioContext";
+import { useAudioContext } from "../audioContext";
 
 export function useAudioNode<
   ComponentType extends React.ComponentType<any>,

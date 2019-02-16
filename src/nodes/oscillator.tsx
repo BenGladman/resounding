@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
+import { ConnectTo, useConnection } from "../connection";
 import { useAudioNode } from "./audioNode";
-import { ConnectTo, useConnection } from "./connection";
 
 type Props = {
   connectTo: ConnectTo;
