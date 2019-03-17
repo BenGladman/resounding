@@ -1,2 +1,2 @@
-export * from "./master";
-export * from "./vibrato";
+export * from "./Master";
+export * from "./Vibrato";

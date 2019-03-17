@@ -1,3 +1,3 @@
-export * from "./audioDestination";
-export * from "./gain";
-export * from "./oscillator";
+export * from "./AudioDestination";
+export * from "./Gain";
+export * from "./Oscillator";
